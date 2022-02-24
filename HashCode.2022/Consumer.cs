@@ -49,6 +49,7 @@ namespace HashCode._2022
         {
             int lastValueableDay = this.Projects.Max(x => x.LastStartDayOnePoint);
 
+
             for (int i = 1; i < lastValueableDay; i++)
             {
                 // remove projects that no longer give points
@@ -59,6 +60,10 @@ namespace HashCode._2022
                     if (i > threshold)
                     {
                         this.Projects.Remove(proj);
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
 

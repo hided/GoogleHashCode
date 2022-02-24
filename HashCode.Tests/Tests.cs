@@ -13,9 +13,10 @@ namespace HashCode.Tests
 
         [TestCase("1.in", "1.out")]
         [TestCase("2.in", "2.out")]
-        [TestCase("3.in", "3.out")]
+        //[TestCase("3.in", "3.out")]
         [TestCase("4.in", "4.out")]
         [TestCase("5.in", "5.out")]
+        [TestCase("6.in", "6.out")]
         public void RunFile(string inputFile, string outputFile)
         {
             Directory.CreateDirectory(INPUT_DIR);
