@@ -19,6 +19,7 @@ namespace HashCode._2022
             lines[1].Split(' ').Select(x => int.Parse(x)).ToArray();
 
             // ...
+            // test
 
 
 
