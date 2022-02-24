@@ -86,18 +86,26 @@ namespace HashCode._2022
                 }
 
                 // schedule projects
-                var candidateProjects = this.Projects.Take(10).ToList();
+                var candidateProjects = this.Projects.Take(100).OrderBy(x => x.DurationDays).ToList();
                 foreach (var project in candidateProjects)
                 {
                     var usedPeople = new HashSet<Person>();
                     foreach (var skill in project.RequiredSkills)
                     {
+                        var pizza = usedPeople.SelectMany(x => x.Skills).Where(x => x.Name == skill.Name)
+                            .Any(x => x.Level >= skill.Level);
+
                         if (!dict.ContainsKey(skill.Name))
                         {
                             // no people available with this skill
                             break;
                         }
-                        var target = dict[skill.Name].FirstOrDefault(x => x.SkillLevel >= skill.Level);
+                        PersonSkill target;
+                        if(pizza)
+                            target = dict[skill.Name].FirstOrDefault(x => x.SkillLevel >= skill.Level - 1);
+                        else
+                            target = dict[skill.Name].FirstOrDefault(x => x.SkillLevel >= skill.Level);
+
                         if (target == null)
                             break;
                         usedPeople.Add(target.Person);
@@ -141,14 +149,13 @@ namespace HashCode._2022
                 // update return day
                 person.DayAvailable = currentDay + project.DurationDays;
                 // update skills
-                foreach (var skill in person.Skills)
-                {
-                    var projSkill = project.RequiredSkills.FirstOrDefault(x => x.Name == skill.Name);
-                    if (projSkill == null)
-                        continue;
-                    if (skill.Level == projSkill.Level)
-                        skill.Level++;
-                }
+                int personIndex = people.IndexOf(person);
+                var projSkill = project.RequiredSkills[personIndex];
+                var skill = person.Skills.First(x => x.Name == projSkill.Name);
+
+                if (skill.Level == projSkill.Level || skill.Level == projSkill.Level - 1)
+                    skill.Level++;
+
             }
         }
 

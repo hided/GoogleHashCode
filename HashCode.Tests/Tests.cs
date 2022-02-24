@@ -33,6 +33,7 @@ namespace HashCode.Tests
         {
             string sourceDir = @"..\..\..\..\HashCode.2022";
             string outputFile = Path.Combine(OUTPUT_DIR, "source.zip");
+            File.Delete(outputFile);
             ZipFile.CreateFromDirectory(sourceDir, outputFile);
         }
     }
